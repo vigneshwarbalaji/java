@@ -12,12 +12,35 @@ public class SnakeAndLadderMain
 			Scanner s = new Scanner(System.in);
 			
 			System.out.println("Enter player 1 name:");
-			String playerOneName = s.next();
+			String playerOneName = s.nextLine();
+
+			if(playerOneName == null||playerOneName.length() == 0)
+				{
+					//System.out.println("hi i am exception");
+					try {
+					throw new StringCannotBeNullException();
+					}catch (StringCannotBeNullException e) {
+						// TODO: handle exception
+						playerOneName = e.enterAValidName();
+					}
+				}
+
 			int playerOnePos = 1;
 			//Players p1 = new Players(playerOneName,playerOnePos);
 			
 			System.out.println("Enter player 2 name:");
-			String playerTwoName = s.next();
+			String playerTwoName = s.nextLine();
+
+			if(playerTwoName == null||playerTwoName.length() == 0)
+			{
+				try {
+					throw new StringCannotBeNullException();
+					}catch (StringCannotBeNullException e) {
+						// TODO: handle exception
+						playerTwoName = e.enterAValidName();
+					}
+			}
+
 			int playerTwoPos = 1;
 			//Players p2 = new Players(playerTwoName,playerTwoPos);
 			
@@ -29,7 +52,7 @@ public class SnakeAndLadderMain
 		    {
 		        System.out.println(currentPlayer==-1?"\n\n "+playerOneName:"\n\n "+playerTwoName);
 		        System.out.println("Press y to roll Dice");
-		        playAgain = s.next();
+		        playAgain = s.nextLine();
 		        diceValue = snakeNladStorage.rollingDice();
 		          
 		          

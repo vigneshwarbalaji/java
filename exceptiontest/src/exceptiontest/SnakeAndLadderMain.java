@@ -13,7 +13,7 @@ public class SnakeAndLadderMain
 			
 			System.out.println("Enter player 1 name:");
 			String playerOneName = s.nextLine();
-			playerOneName.replaceAll("\\s", "");
+			//playerOneName.replaceAll("\\s", "");
 			
 			
 				if(playerOneName == null||playerOneName.length() == 0)
@@ -34,7 +34,7 @@ public class SnakeAndLadderMain
 			
 			System.out.println("Enter player 2 name:");
 			String playerTwoName = s.nextLine();
-			playerTwoName.replaceAll("\\s", "");
+			//playerTwoName.replaceAll("\\s", "");
 			
 			if(playerTwoName == null||playerTwoName.length() == 0)
 			{
