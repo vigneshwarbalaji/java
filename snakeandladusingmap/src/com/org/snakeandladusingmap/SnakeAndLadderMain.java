@@ -11,6 +11,11 @@ import java.util.Scanner;
 //Hashtable can also be used
 //vector can also be used
 
+//Changes given
+//appropriate data structure needs to be used
+//Game must need to start only when 1 is thrown
+//1 r 5 r 6 when thrown player must need to get another chance to throw the dice
+
 public class SnakeAndLadderMain 
 {
 	
@@ -38,6 +43,7 @@ public class SnakeAndLadderMain
 	//calculating player position
 	public static int calculatePlayerPosition(String playerName,int playerPos, int diceValue)
 	{
+		
 	    playerPos = playerPos + diceValue;
 	      
 	    if(playerPos > WIN)
@@ -48,71 +54,15 @@ public class SnakeAndLadderMain
 	      
 	    if(null!=snakes.get(playerPos))
 	    {
-	        System.out.println(playerName+" have got swallowed by a snake,get down");
+	        System.out.println(playerName+" had got swallowed by a snake,get down");
 	        playerPos = snakes.get(playerPos);
 	    }
 	      
 	    if(null!=ladder.get(playerPos))
 	    {
-	        System.out.println(playerName+" have got swallowed by a snake,get down");
+	        System.out.println(playerName+" had got a ladder,get up");
 	        playerPos = ladder.get(playerPos);
 	    }
-	    
-	    
-	    /*
-	    if(snakes.get(0) == playerPos)
-	    {
-	    	
-	    	playerPos = 54;
-	    }
-	    else if(snakes.get(1) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got swallowed by a snake,get down");
-	    	playerPos = 55;
-	    }
-	    else if(snakes.get(2) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got swallowed by a snake,get down");
-	    	playerPos = 42;
-	    }
-	    else if(snakes.get(3) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got swallowed by a snake,get down");
-	    	playerPos = 2;
-	    }
-	    else if(snakes.get(4) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got swallowed by a snake,get down");
-	    	playerPos = 72;
-	    }
-	    
-	    
-	    if(ladder.get(0) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got into a ladder,get up");
-	    	playerPos = 25;
-	    }
-	    else if(ladder.get(1) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got into a ladder,get up");
-	    	playerPos = 40;
-	    }
-	    else if(ladder.get(2) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got into a ladder,get up");
-	    	playerPos = 85;
-	    }
-	    else if(ladder.get(3) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got into a ladder,get up");
-	    	playerPos = 90;
-	    }
-	    else if(ladder.get(4) == playerPos)
-	    {
-	    	System.out.println(playerName+" have got into a ladder,get up");
-	    	playerPos = 69;
-	    }
-	    */
 	    
 	    return playerPos;
 	}
@@ -120,19 +70,31 @@ public class SnakeAndLadderMain
 	//Dice
 	public static int rollingDice()
 	{
-	    int n = 0;
-	    Random r = new Random();
-	    n=r.nextInt(7);
-	    
-	    if(n == 0)
-	    {
-	    	return 1;
-	    }
-	    else
-	    {
-	    	return n;
-	    }
+	    Random random = new Random();
+		
+		int max = 6;
+		int min = 1;
+		
+		int randomNum = random.nextInt((max - min) + 1) + min;
+		
+		return randomNum;
 	}
+	
+	/*public static String gamePlay()
+	{
+	
+		return playAgain;
+	}*/
+	
+	public static int shiftInChance(int diceValue,int currentPlayer)
+	{
+		if(diceValue != 1 && diceValue != 5 && diceValue != 6)
+        {
+        	currentPlayer= -currentPlayer;
+        }
+		return currentPlayer;
+	}
+
 	
 	//winning user
 	public boolean hasWon(int playerPos)
@@ -160,6 +122,8 @@ public class SnakeAndLadderMain
 			int currentPlayer = -1;
 			int diceValue = 0;
 			String playAgain = "y";
+			boolean firstPlayersFirstThrow = false;
+			boolean secondPlayersFirstThrow = false;
 			
 			do
 		    {
@@ -167,37 +131,54 @@ public class SnakeAndLadderMain
 		        System.out.println("Press y to roll Dice");
 		        playAgain = s.next();
 		        diceValue = snakeNladMain.rollingDice();
-		          
-		          
-		        if(currentPlayer == -1)
-		        {
-		            playerOnePos = snakeNladMain.calculatePlayerPosition(playerOneName,playerOnePos,diceValue);
 		            
-		            System.out.println(playerOneName+" is in position : " + playerOnePos);
-		            System.out.println(playerTwoName+" is in position : " + playerTwoPos);
-		            System.out.println("------------------");
-		            if(snakeNladMain.hasWon(playerOnePos))
-		            {
-		                System.out.println(playerOneName+" wins");
-		                return "n";
-		            }
-		        }
-		        else
-		        {
-		            playerTwoPos = snakeNladMain.calculatePlayerPosition(playerTwoName,playerTwoPos,diceValue);
-		            System.out.println(playerOneName+" is in position : " + playerOnePos);
-		            System.out.println(playerTwoName+" is in position : " + playerTwoPos);
-		            System.out.println("------------------");
-		            if(snakeNladMain.hasWon(playerTwoPos))
-		            {
-		                System.out.println(playerTwoName+" wins");
-		                return "n";
-		            }
-		        }
-		          
-		        currentPlayer= -currentPlayer;
-		          
-		    }while("y".equals(playAgain));
+			        if(currentPlayer == -1)
+			        {
+			        	if(diceValue == 1||firstPlayersFirstThrow == true)
+			        	{
+			        		firstPlayersFirstThrow = true;
+			        		playerOnePos = snakeNladMain.calculatePlayerPosition(playerOneName,playerOnePos,diceValue);
+			        	}
+			        	
+			        	System.out.println(playerOneName+" had got a dice value: "+diceValue);
+			            System.out.println(playerOneName+" is in position : " + playerOnePos);
+			            System.out.println(playerTwoName+" is in position : " + playerTwoPos);
+			            System.out.println("------------------");
+			            if(snakeNladMain.hasWon(playerOnePos))
+			            {
+			                System.out.println(playerOneName+" wins");
+			                return "n";
+			            }
+			        }
+			        else
+			        {
+			        	if(diceValue == 1||secondPlayersFirstThrow == true)
+			        	{
+			        		secondPlayersFirstThrow = true;
+			        		playerTwoPos = snakeNladMain.calculatePlayerPosition(playerTwoName,playerTwoPos,diceValue);
+			        	}
+			        	
+			        	System.out.println(playerTwoName+" had got a dice value: "+diceValue);
+			            System.out.println(playerOneName+" is in position : " + playerOnePos);
+			            System.out.println(playerTwoName+" is in position : " + playerTwoPos);
+			            System.out.println("------------------");
+			            if(snakeNladMain.hasWon(playerTwoPos))
+			            {
+			                System.out.println(playerTwoName+" wins");
+			                return "n";
+			            }
+			        }
+			        
+			        currentPlayer = shiftInChance(diceValue, currentPlayer);
+			        
+			        /*if(diceValue != 1 && diceValue != 5 && diceValue != 6)
+			        {
+			        	currentPlayer= -currentPlayer;
+			        }*/
+			          
+			    }while("y".equals(playAgain));
+			    
+			    
 			return playAgain;
 			
 		}
@@ -214,7 +195,7 @@ public class SnakeAndLadderMain
 	        System.out.println("Do you want to play the game: y or n");
 	        play = s.next();
 
-	        if(play.equals("y") || play.equals("Y"))
+	        if(play.equalsIgnoreCase("y"))
 	        {
 	            play = loadGame();
 	        }
