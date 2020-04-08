@@ -5,7 +5,7 @@ public class CatchInsideFinally
     {
         try 
         {
-            i = 1/0;    
+           int i = 1/0;    
         }
         finally{
             try{
