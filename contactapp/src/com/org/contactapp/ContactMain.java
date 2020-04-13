@@ -7,7 +7,6 @@ public class ContactMain
 	public static void main(String[] args) 
 	{
 		Contact list = new Contact();
-		
 		Scanner s = new Scanner(System.in);
 		
 		while(true)
